@@ -28,7 +28,10 @@ namespace Template
 				}
 			}
 			//scene vullen
-			scene.Add_primtive(new Sphere(new Vector3(-0.4f, 0.3f, 0), 0.1f, 0xFF0000));
+			scene.Add_primtive(new Sphere(new Vector3(-0.5f, 0f, 0), 0.1f, MixColor(255,0,0)));
+			scene.Add_primtive(new Sphere(new Vector3(0.4f, 0.5f, 0), 0.1f, MixColor(0,255,0)));
+			scene.Add_primtive(new Sphere(new Vector3(-0.1f, -0.4f, 0), 0.1f, MixColor(0,0,255)));
+			scene.Add_primtive(new Sphere(new Vector3(0.9f, 0.1f, 0), 0.1f, MixColor(79,69,0)));
 
 		}
 
@@ -92,7 +95,7 @@ namespace Template
 		Vector3 ToWorldCoordinate(int x,int y)
 		{
 			float worldX= (x-screen.width/2f) / (screen.width/2f);
-			float worldy= (-1 * y + screen.height/2f) / (screen.height/2f) / ((float)screen.width/screen.height);
+			float worldy= (-1 * y + screen.height/2f) / (screen.height/2f) / ((float)screen.width / screen.height);
 			return new Vector3(worldX, worldy, 0);
 		}
 		// kleur in decimal code
