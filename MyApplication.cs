@@ -9,7 +9,7 @@ namespace Template
 		// member variables
 		public Surface screen; Surface map;
 		float[,] h;
-		public Camera camera = new Camera(new Vector3(0, 0, -1));
+		public Camera camera; 
 		public Scene scene = new Scene();
 
 
@@ -28,10 +28,13 @@ namespace Template
 				}
 			}
 			//scene vullen
-			scene.Add_primtive(new Sphere(new Vector3(-0.5f, 0f, 0), 0.1f, MixColor(255,0,0)));
-			scene.Add_primtive(new Sphere(new Vector3(0.4f, 0.5f, 0), 0.1f, MixColor(0,255,0)));
-			scene.Add_primtive(new Sphere(new Vector3(-0.1f, -0.4f, 0), 0.1f, MixColor(0,0,255)));
-			scene.Add_primtive(new Sphere(new Vector3(0.9f, 0.1f, 0), 0.1f, MixColor(79,69,0)));
+			scene.Add_primtive(new Sphere(new Vector3(-0.5f, 0.5f, 1), 0.2f, MixColor(255,0,0)));
+			scene.Add_primtive(new Sphere(new Vector3(0.4f, 0.5f, 4), 0.2f, MixColor(0,255,0)));
+			scene.Add_primtive(new Sphere(new Vector3(-0.1f, -0.4f, 3), 0.2f, MixColor(0,0,255)));
+			scene.Add_primtive(new Sphere(new Vector3(0.9f, 0.1f, 2), 0.2f, MixColor(79,69,0)));
+			scene.Add_primtive(new Sphere(new Vector3(-.9f, 0.3f, 6), 0.25f, MixColor(79,0 , 100)));
+
+			camera = new Camera(new Vector3(0, 0, -3));
 
 		}
 
