@@ -9,7 +9,7 @@ namespace Template
 		// member variables
 		public Surface screen; Surface map;
 		float[,] h;
-		public Camera camera = new Camera(new Vector3(0, 0, 0));
+		public Camera camera = new Camera(new Vector3(0, 0, -1));
 		public Scene scene = new Scene();
 
 
@@ -28,7 +28,7 @@ namespace Template
 				}
 			}
 			//scene vullen
-			scene.Add_primtive(new Sphere(new Vector3(0.5f, 0.5f, 0), 0.1f, 0xFF0000));
+			scene.Add_primtive(new Sphere(new Vector3(-0.4f, 0.3f, 0), 0.1f, 0xFF0000));
 
 		}
 
@@ -37,7 +37,7 @@ namespace Template
 		public void Tick()
 		{
 			screen.Clear(0);
-			for (int x = 0; x < 100; x++) for (int y = 0; y < 100; y++) screen.Plot(x + 200, y + 200, 0xFF0000);
+//			for (int x = 0; x < 100; x++) for (int y = 0; y < 100; y++) screen.Plot(x + 200, y + 200, 0xFF0000);
 
 			// voor ieder pixel schiet een primary ray. 
 			for (int x = 0; x < screen.width; x++)
@@ -53,6 +53,8 @@ namespace Template
 					}
 					else
 					{
+						screen.Plot(x, y, (int)nearest_intersection.primitive.color);
+						/*
 						// schiet een shadowray naar de licht sources. vanaf de locatie van de intersectie. 
 						foreach(Light light in scene.light_sources)
 						{
@@ -71,13 +73,13 @@ namespace Template
 
 
 
-						}
+						}*/
 					}
 					
 						
 
 					// laatste stap
-					screen.Plot(x, y, color);
+			//		screen.Plot(x, y, color);
 				}
 			
 
@@ -90,7 +92,7 @@ namespace Template
 		Vector3 ToWorldCoordinate(int x,int y)
 		{
 			float worldX= (x-screen.width/2f) / (screen.width/2f);
-			float worldy= (-1 * y + screen.height/2f) / (screen.height/2f);
+			float worldy= (-1 * y + screen.height/2f) / (screen.height/2f) / ((float)screen.width/screen.height);
 			return new Vector3(worldX, worldy, 0);
 		}
 		// kleur in decimal code
