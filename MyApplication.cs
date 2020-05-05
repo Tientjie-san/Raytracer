@@ -28,11 +28,17 @@ namespace Template
 				}
 			}
 			//scene vullen
-			scene.Add_primtive(new Sphere(new Vector3(-0.5f, 0.5f, 1), 0.2f, MixColor(255,0,0)));
-			scene.Add_primtive(new Sphere(new Vector3(0.4f, 0.5f, 4), 0.2f, MixColor(0,255,0)));
-			scene.Add_primtive(new Sphere(new Vector3(-0.1f, -0.4f, 3), 0.2f, MixColor(0,0,255)));
-			scene.Add_primtive(new Sphere(new Vector3(0.9f, 0.1f, 2), 0.2f, MixColor(79,69,0)));
-			scene.Add_primtive(new Sphere(new Vector3(-.9f, 0.3f, 6), 0.25f, MixColor(79,0 , 100)));
+			Vector3 yellow = new Vector3(1, 1, 0);
+			Vector3 red = new Vector3(1, 0, 0);
+			Vector3 gray = new Vector3(0.5f, 0.5f, 0.5f);
+			Vector3 green = new Vector3(0, 1, 0);
+			Vector3 blue = new Vector3(0, 0, 1);
+
+			scene.Add_primtive(new Sphere(new Vector3(-0.5f, 0.5f, 1), 0.2f, yellow));
+			scene.Add_primtive(new Sphere(new Vector3(0.4f, 0.5f, 4), 0.2f, red));
+			scene.Add_primtive(new Sphere(new Vector3(-0.1f, -0.4f, 3), 0.2f, gray));
+			scene.Add_primtive(new Sphere(new Vector3(0.9f, 0.1f, 2), 0.2f, green));
+			scene.Add_primtive(new Sphere(new Vector3(-.9f, 0.3f, 6), 0.25f, blue));
 
 			camera = new Camera(new Vector3(0, 0, -3));
 
@@ -59,7 +65,8 @@ namespace Template
 					}
 					else
 					{
-						screen.Plot(x, y, (int)nearest_intersection.primitive.color);
+						screen.Plot(x, y, ConvertColor(nearest_intersection.primitive.color));
+						
 						/*
 						// schiet een shadowray naar de licht sources. vanaf de locatie van de intersectie. 
 						foreach(Light light in scene.light_sources)
@@ -70,12 +77,21 @@ namespace Template
 							Vector3 origin = nearest_intersection.location;
 							Vector3 direction = (light.location - origin).Normalized();
 							float distance = Vector3.Distance(origin, light.location);
-							Vector3 offset = 0.5f *direction;
+							Vector3 offset = 0.005f *direction;
 							float distance_offset = 2 * Vector3.Distance(origin, origin + offset);
 							Ray shadowray = new Ray(origin+offset, direction, distance - distance_offset );
 
 							// kijk of er een occluder is.
 							bool occluded = scene.Occluded(shadowray);
+							if (occluded)
+							{
+								// return donker kleur?
+							}
+							else
+							{
+								// verder met kleur berekenen
+
+							}
 
 
 
@@ -91,6 +107,22 @@ namespace Template
 
 		}
 
+		int ConvertColor(Vector3 rgb)
+		{
+			rgb = rgb * 256.0f;
+			for (int i = 0; i < 3; i++)
+			{
+				if (rgb[i] < 0)
+				{
+					rgb[i] = 0;
+				}
+				else if (rgb[i] > 255)
+				{
+					rgb[i] = 255;
+				}
+			}
+			return MixColor((int)rgb[0], (int)rgb[1], (int)rgb[2]);
+		}
 	
 
 		// vertaalt pixel coordinaten naar world space coordinaten hier is van uitgegaan dat view direction (0,0,1) is. slide 12 raytracing
