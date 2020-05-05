@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using OpenTK;
 
 
@@ -8,10 +8,9 @@ namespace Template
     {
         public float radius;
         public float r2;
-        public int color;
         public Vector3  center;
 
-        public Sphere(Vector3 position ,float r, int c)
+        public Sphere(Vector3 position ,float r, Vector3 c)
         {
             center = position;
             radius = r;
@@ -38,7 +37,9 @@ namespace Template
             if ((distance < ray.distance) && (distance > 0))
             {
                 Vector3 locatie = ray.origin + distance * ray.direction;
-                return new Intersection(this, locatie, distance);
+                // normal at location of intersection
+                Vector3 normal = (locatie - position).Normalized();
+                return new Intersection(this, locatie, normal, distance);
             }
             else return null;
                 
