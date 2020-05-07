@@ -6,6 +6,6 @@ De to world coordinate methode moet volgens mij gefixt worden. weet niet zeker o
 
 Alles is nu occluded, dit klopt ook niet volgens mij
 
-Kleur berekenen klopt nog niet
+Kleur (licht) berekenen klopt nog niet
 
 
