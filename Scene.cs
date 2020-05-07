@@ -30,10 +30,10 @@ namespace Template
             {
                 if(primitive.Intersect(shadowray) != null)
                 {
-                    return false;
+                    return true;
                 }
             }
-            return true;
+            return false;
         }
         public Intersection getNearestIntersection(Ray ray)
         {
