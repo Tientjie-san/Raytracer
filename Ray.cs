@@ -4,7 +4,7 @@ using OpenTK;
 
 namespace Template
 {
-    public struct Ray
+    public class Ray
     {
         public Vector3 origin, direction;
         public float distance;

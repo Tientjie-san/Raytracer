@@ -1,0 +1,11 @@
+C:\Users\sebas\OneDrive\Bureaublad\Studie\Vakken\Graphics\C# templates\INFOGR2020Tmpl8\obj\Debug\Template.csprojAssemblyReference.cache
+C:\Users\sebas\OneDrive\Bureaublad\Studie\Vakken\Graphics\C# templates\INFOGR2020Tmpl8\obj\Debug\Template.csproj.CoreCompileInputs.cache
+C:\Users\sebas\OneDrive\Bureaublad\Studie\Vakken\Graphics\C# templates\INFOGR2020Tmpl8\bin\Debug\INFOGR2019Tmpl8.exe.config
+C:\Users\sebas\OneDrive\Bureaublad\Studie\Vakken\Graphics\C# templates\INFOGR2020Tmpl8\bin\Debug\INFOGR2019Tmpl8.exe
+C:\Users\sebas\OneDrive\Bureaublad\Studie\Vakken\Graphics\C# templates\INFOGR2020Tmpl8\bin\Debug\INFOGR2019Tmpl8.pdb
+C:\Users\sebas\OneDrive\Bureaublad\Studie\Vakken\Graphics\C# templates\INFOGR2020Tmpl8\bin\Debug\OpenTK.dll
+C:\Users\sebas\OneDrive\Bureaublad\Studie\Vakken\Graphics\C# templates\INFOGR2020Tmpl8\bin\Debug\OpenTK.pdb
+C:\Users\sebas\OneDrive\Bureaublad\Studie\Vakken\Graphics\C# templates\INFOGR2020Tmpl8\bin\Debug\OpenTK.xml
+C:\Users\sebas\OneDrive\Bureaublad\Studie\Vakken\Graphics\C# templates\INFOGR2020Tmpl8\obj\Debug\Template.csproj.CopyComplete
+C:\Users\sebas\OneDrive\Bureaublad\Studie\Vakken\Graphics\C# templates\INFOGR2020Tmpl8\obj\Debug\INFOGR2019Tmpl8.exe
+C:\Users\sebas\OneDrive\Bureaublad\Studie\Vakken\Graphics\C# templates\INFOGR2020Tmpl8\obj\Debug\INFOGR2019Tmpl8.pdb

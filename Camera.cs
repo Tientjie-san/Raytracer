@@ -10,4 +10,5 @@ namespace Template
         {
             postion = pos;
         }
+    }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using OpenTK;
 
 namespace Template
@@ -15,7 +15,7 @@ namespace Template
             this.location = location;
             this.color = color;
             this.ambientStrength = ambientStrength;
-
+            this.brightness = 5;
         }
 
         public Vector3 ComputeColor(Vector3 objectcolor, Vector3 normal, Vector3 Lightdirection)
@@ -23,7 +23,7 @@ namespace Template
             Vector3 ambient = ambientStrength * color;
             float diff = Math.Max(Vector3.Dot(normal, Lightdirection), 0);
             Vector3 diffuse = diff * color;
-            return (ambient +diffuse) * objectcolor;
+            return (ambient +diffuse) * brightness * objectcolor;
         }
     }
 }

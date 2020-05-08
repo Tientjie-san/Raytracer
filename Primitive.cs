@@ -1,4 +1,4 @@
-using OpenTK;
+﻿using OpenTK;
 
 namespace Template
 {
