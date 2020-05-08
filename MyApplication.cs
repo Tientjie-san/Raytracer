@@ -35,12 +35,12 @@ namespace Template
 			Vector3 blue = new Vector3(0, 0, 1);
 			Vector3 white = new Vector3(1, 1, 1);
 
-			scene.Add_primtive(new Sphere(new Vector3(-0.5f, 0.5f, 4), 0.2f, yellow));
-			scene.Add_primtive(new Sphere(new Vector3(0.4f, 0.5f, 4), 0.2f, red));
-			scene.Add_primtive(new Sphere(new Vector3(-0.1f, -0.4f, 4), 0.2f, gray));
-			scene.Add_primtive(new Sphere(new Vector3(0.9f, 0.1f, 4), 0.2f, green));
-			scene.Add_primtive(new Sphere(new Vector3(-.9f, 0.3f, 5), 0.25f, blue));
-			scene.Add_light(new Light(new Vector3(0, 0, 4), white, 0.1f));
+			scene.Add_primtive(new Sphere(new Vector3(-0.5f, 0.5f, 3), 0.2f, yellow));
+			scene.Add_primtive(new Sphere(new Vector3(0.4f, 0.5f, 3), 0.2f, red));
+			scene.Add_primtive(new Sphere(new Vector3(-0.1f, -0.4f, 3), 0.2f, gray));
+			scene.Add_primtive(new Sphere(new Vector3(0.9f, 0.1f, 3), 0.2f, green));
+			scene.Add_primtive(new Sphere(new Vector3(-.9f, 0.3f, 3), 0.25f, blue));
+			scene.Add_light(new Light(new Vector3(0, 0, 3), white , 0.1f));
 
 
 			camera = new Camera(new Vector3(0, 0, -3));
@@ -89,8 +89,7 @@ namespace Template
 							if (occluded)
 							{
 								// return donker kleur?
-								color = light.ComputeColor(nearest_intersection.primitive.color, nearest_intersection.normal, direction);
-
+							
 
 							}
 							else
