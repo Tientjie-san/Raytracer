@@ -1,6 +1,7 @@
 using System;
 using OpenTK.Graphics.OpenGL;
 using OpenTK;
+using System.Net.Mail;
 
 namespace Template
 {
@@ -28,22 +29,28 @@ namespace Template
 				}
 			}
 			//scene vullen
-			Vector3 yellow = new Vector3(1, 1, 0);
-			Vector3 red = new Vector3(1, 0, 0);
+			Vector3 yellow = new Vector3(1, 1, 0.2f);
+			Vector3 red = new Vector3(1, 0.1f, 0.1f);
 			Vector3 gray = new Vector3(0.5f, 0.5f, 0.5f);
-			Vector3 green = new Vector3(0, 1, 0);
-			Vector3 blue = new Vector3(0, 0, 1);
+			Vector3 green = new Vector3(0.1f, 1, 0.1f);
+			Vector3 blue = new Vector3(0.1f, 0.1f, 1);
 			Vector3 white = new Vector3(1, 1, 1);
 
-			scene.Add_primtive(new Sphere(new Vector3(-0.5f, 0.5f, 3), 0.2f, yellow));
-			scene.Add_primtive(new Sphere(new Vector3(0.4f, 0.5f, 3), 0.2f, red));
-			scene.Add_primtive(new Sphere(new Vector3(-0.1f, -0.4f, 3), 0.2f, gray));
-			scene.Add_primtive(new Sphere(new Vector3(0.9f, 0.1f, 3), 0.2f, green));
-			scene.Add_primtive(new Sphere(new Vector3(-.9f, 0.3f, 3), 0.25f, blue));
-			scene.Add_light(new Light(new Vector3(0, 0, 3), white , 0.1f));
+			scene.Add_primtive(new Sphere(new Vector3(0, 0.5f, 1), 0.2f, gray));
+			scene.Add_primtive(new Sphere(new Vector3(-0.5f, 0.5f, 1), 0.2f, gray));
+			scene.Add_primtive(new Sphere(new Vector3(0.5f, 0.5f, 1), 0.2f, gray));
+			//scene.Add_primtive(new Sphere(new Vector3(-0.5f, 0.5f, 1), 0.2f, yellow));
+			//scene.Add_primtive(new Sphere(new Vector3(0.4f, 0.5f, 1), 0.2f, red));
+			//scene.Add_primtive(new Sphere(new Vector3(-0.1f, -0.4f, 1), 0.2f, gray));
+			//scene.Add_primtive(new Sphere(new Vector3(0.9f, 0.1f, 1), 0.2f, green));
+			//scene.Add_primtive(new Sphere(new Vector3(-.9f, 0.3f, 1), 0.25f, blue));
+			scene.Add_primtive(new Plane(new Vector3(0, -1, 0), new Vector3(0, 2, 0), blue));
+			//scene.Add_primtive(new Sphere(new Vector3(0, -1, 4), 0.2f, green));
+			//scene.Add_primtive(new Sphere(new Vector3(0, -0.5f, 5), 0.25f, blue));
+			scene.Add_light(new Light(new Vector3(2, 2, 2), white , 0.1f));
 
 
-			camera = new Camera(new Vector3(0, 0, -3));
+			camera = new Camera(new Vector3(0, 0, -2));
 
 		}
 
@@ -62,27 +69,23 @@ namespace Template
 					Ray primaryray = new Ray(camera.postion, ToWorldCoordinate(x, y) - camera.postion, float.MaxValue);
 					Intersection nearest_intersection = scene.getNearestIntersection(primaryray);
 					// als de nearest intersectie null is betekent het dat er geen primitive geraakt is dus worrdt er zwarte pixel geplot
-					if (nearest_intersection == null) 
-					{
-						screen.Plot(x, y, ConvertColor(color));
-					}
-					else
-					{
-						//screen.Plot(x, y, ConvertColor(nearest_intersection.primitive.color));
-						
-						
 						// schiet een shadowray naar de licht sources. vanaf de locatie van de intersectie. 
-						foreach(Light light in scene.light_sources)
+					foreach(Light light in scene.light_sources)
+					{
+						if (nearest_intersection == null)
 						{
-							
+							screen.Plot(x, y, ConvertColor(color));
+						}
+						else
+						{
 							// shadowray maken, origin moet een offset hebben x * direction, distance moet 2 * de afstand van de offset
 							// ingekort worden. 
 							Vector3 origin = nearest_intersection.location;
 							Vector3 direction = (light.location - origin).Normalized();
 							float distance = Vector3.Distance(origin, light.location);
-							Vector3 offset = 0.005f *direction;
+							Vector3 offset = 0.005f * direction;
 							float distance_offset = 2 * Vector3.Distance(origin, origin + offset);
-							Ray shadowray = new Ray(origin+offset, direction, distance - distance_offset );
+							Ray shadowray = new Ray(origin + offset, direction, distance - distance_offset);
 
 							// kijk of er een occluder is.
 							bool occluded = scene.Occluded(shadowray);
@@ -96,17 +99,11 @@ namespace Template
 							{
 								// verder met kleur berekenen
 
-								color = light.ComputeColor(nearest_intersection.primitive.color, nearest_intersection.normal, direction);
+								color += light.ComputeColor(nearest_intersection.primitive.color, nearest_intersection.normal, direction, distance);
 
 							}
-
-
-
-						}//*/
+						}
 					}
-					
-						
-
 					// laatste stap
 					screen.Plot(x, y, ConvertColor(color));
 				}
