@@ -58,7 +58,6 @@ namespace Template
 		public void Tick()
 		{
 			screen.Clear(0);
-//			for (int x = 0; x < 100; x++) for (int y = 0; y < 100; y++) screen.Plot(x + 200, y + 200, 0xFF0000);
 
 			// voor ieder pixel schiet een primary ray. 
 			for (int x = 0; x < screen.width; x++)
@@ -66,48 +65,9 @@ namespace Template
 				{
 					Vector3 color = new Vector3(0,0,0);
 					Ray primaryray = new Ray(camera.postion, ToWorldCoordinate(x, y) - camera.postion, float.MaxValue);
-					Intersection nearest_intersection = scene.getNearestIntersection(primaryray);
-					// als de nearest intersectie null is betekent het dat er geen primitive geraakt is dus worrdt er zwarte pixel geplot
-						// schiet een shadowray naar de licht sources. vanaf de locatie van de intersectie. 
-					foreach(Light light in scene.light_sources)
-					{
-						if (nearest_intersection == null)
-						{
-							screen.Plot(x, y, ConvertColor(color));
-						}
-						else
-						{
-							// shadowray maken, origin moet een offset hebben x * direction, distance moet 2 * de afstand van de offset
-							// ingekort worden. 
-							Vector3 origin = nearest_intersection.location;
-							Vector3 direction = (light.location - origin).Normalized();
-							float distance = Vector3.Distance(origin, light.location);
-							Vector3 offset = 0.005f * direction;
-							float distance_offset = 2 * Vector3.Distance(origin, origin + offset);
-							Ray shadowray = new Ray(origin + offset, direction, distance - distance_offset);
-
-							// kijk of er een occluder is.
-							bool occluded = scene.Occluded(shadowray);
-							if (occluded)
-							{
-								// return donker kleur?
-							
-
-							}
-							else
-							{
-								// verder met kleur berekenen
-								color += light.ComputeColor(nearest_intersection.primitive.color, nearest_intersection.normal, direction, 
-									distance);
-
-							}
-						}
-					}
-					// laatste stap
+					color = camera.Trace(primaryray, scene, color);					
 					screen.Plot(x, y, ConvertColor(color));
 				}
-			
-
 		}
 
 		int ConvertColor(Vector3 rgb)
