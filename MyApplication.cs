@@ -36,20 +36,19 @@ namespace Template
 			Vector3 blue = new Vector3(0.1f, 0.1f, 1);
 			Vector3 white = new Vector3(1, 1, 1);
 
-			scene.Add_primtive(new Sphere(new Vector3(0, 0.5f, 1), 0.2f, gray));
-			scene.Add_primtive(new Sphere(new Vector3(-0.5f, 0.5f, 1), 0.2f, gray));
-			scene.Add_primtive(new Sphere(new Vector3(0.5f, 0.5f, 1), 0.2f, gray));
-			//scene.Add_primtive(new Sphere(new Vector3(-0.5f, 0.5f, 1), 0.2f, yellow));
-			//scene.Add_primtive(new Sphere(new Vector3(0.4f, 0.5f, 1), 0.2f, red));
-			//scene.Add_primtive(new Sphere(new Vector3(-0.1f, -0.4f, 1), 0.2f, gray));
-			//scene.Add_primtive(new Sphere(new Vector3(0.9f, 0.1f, 1), 0.2f, green));
-			//scene.Add_primtive(new Sphere(new Vector3(-.9f, 0.3f, 1), 0.25f, blue));
-			scene.Add_primtive(new Plane(new Vector3(0, -1, 0), new Vector3(0, 2, 0), blue));
-			//scene.Add_primtive(new Sphere(new Vector3(0, -1, 4), 0.2f, green));
-			//scene.Add_primtive(new Sphere(new Vector3(0, -0.5f, 5), 0.25f, blue));
-			scene.Add_light(new Light(new Vector3(2, 2, 2), white , 0.1f));
+
+			scene.Add_primtive(new Sphere(new Vector3(0f, 0.75f, 1.5f), 0.25f, yellow));
+			scene.Add_primtive(new Sphere(new Vector3(0.7f, 0f, 1.5f), 0.25f, red));
+			scene.Add_primtive(new Sphere(new Vector3(-0.7f, 0.7f, 1.5f), 0.25f, gray));
+			scene.Add_primtive(new Plane(new Vector3(0, -1, 0), new Vector3(0, 2, 0), white));
+			
 
 
+
+			scene.Add_light(new Light(new Vector3(2, 2, 2f), white , 2f));
+			scene.Add_light(new Light(new Vector3(-2, 2, 2f), red, 1f));
+			//scene.Add_light(new Light(new Vector3(0, 0, 2f), white, 2f));
+			//scene.Add_light(new Light(new Vector3(2, 2, 2f), red, 2f));
 			camera = new Camera(new Vector3(0, 0, -2));
 
 		}
@@ -98,8 +97,8 @@ namespace Template
 							else
 							{
 								// verder met kleur berekenen
-
-								color += light.ComputeColor(nearest_intersection.primitive.color, nearest_intersection.normal, direction, distance);
+								color += light.ComputeColor(nearest_intersection.primitive.color, nearest_intersection.normal, direction, 
+									distance);
 
 							}
 						}
@@ -130,12 +129,13 @@ namespace Template
 	
 
 		// vertaalt pixel coordinaten naar world space coordinaten hier is van uitgegaan dat view direction (0,0,1) is. slide 12 raytracing
-		// de view direction variable zit in de camera
+		
 		Vector3 ToWorldCoordinate(int x,int y)
 		{
 			float worldX= (x-screen.width/2f) / (screen.width/2f);
 			float worldy= (-1 * y + screen.height/2f) / (screen.height/2f) / ((float)screen.width / screen.height);
-			return new Vector3(worldX, worldy, 0);
+			// verander z om in en uit te zoomen
+			return new Vector3(worldX, worldy, 0f);
 		}
 		// kleur in decimal code
 		int MixColor(int red, int green, int blue)
