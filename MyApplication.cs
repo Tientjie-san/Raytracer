@@ -10,7 +10,7 @@ namespace Template
 		// member variables
 		public Surface screen; Surface map;
 		float[,] h;
-		public Camera camera; 
+		public Camera camera;
 		public Scene scene = new Scene();
 
 
@@ -37,16 +37,16 @@ namespace Template
 			Vector3 white = new Vector3(1, 1, 1);
 
 
-			scene.Add_primtive(new Sphere(new Vector3(0f, 0.75f, 1.5f), 0.25f, yellow));
-			scene.Add_primtive(new Sphere(new Vector3(0.7f, 0f, 1.5f), 0.25f, red));
-			scene.Add_primtive(new Sphere(new Vector3(-0.7f, 0.7f, 1.5f), 0.25f, gray));
-			scene.Add_primtive(new Plane(new Vector3(0, -1, 0), new Vector3(0, 2, 0), white));
-			
+			scene.Add_primitive(new Sphere(new Vector3(0f, 0.75f, 1.5f), 0.25f, yellow));
+			scene.Add_primitive(new Sphere(new Vector3(0.7f, 0f, 1.5f), 0.25f, red));
+			scene.Add_primitive(new Sphere(new Vector3(-0.7f, 0.7f, 1.5f), 0.25f, gray));
+			scene.Add_primitive(new Plane(new Vector3(0, -1, 0), new Vector3(0, 2, 0), green));
 
 
 
-			scene.Add_light(new Light(new Vector3(2, 2, 2f), white , 2f));
-			scene.Add_light(new Light(new Vector3(-2, 2, 2f), red, 1f));
+
+			scene.Add_light(new Light(new Vector3(0, 2, -1f), white, 2f));
+			scene.Add_light(new Light(new Vector3(0, 2, 2f), red, 1f));
 			//scene.Add_light(new Light(new Vector3(0, 0, 2f), white, 2f));
 			//scene.Add_light(new Light(new Vector3(2, 2, 2f), red, 2f));
 			camera = new Camera(new Vector3(0, 0, -2));
@@ -63,9 +63,9 @@ namespace Template
 			for (int x = 0; x < screen.width; x++)
 				for (int y = 0; y < screen.height; y++)
 				{
-					Vector3 color = new Vector3(0,0,0);
+					Vector3 color = new Vector3(0, 0, 0);
 					Ray primaryray = new Ray(camera.postion, ToWorldCoordinate(x, y) - camera.postion, float.MaxValue);
-					color = camera.Trace(primaryray, scene, color);					
+					color = camera.Trace(primaryray, scene, color);
 					screen.Plot(x, y, ConvertColor(color));
 				}
 		}
@@ -86,14 +86,14 @@ namespace Template
 			}
 			return MixColor((int)rgb[0], (int)rgb[1], (int)rgb[2]);
 		}
-	
+
 
 		// vertaalt pixel coordinaten naar world space coordinaten hier is van uitgegaan dat view direction (0,0,1) is. slide 12 raytracing
-		
-		Vector3 ToWorldCoordinate(int x,int y)
+
+		Vector3 ToWorldCoordinate(int x, int y)
 		{
-			float worldX= (x-screen.width/2f) / (screen.width/2f);
-			float worldy= (-1 * y + screen.height/2f) / (screen.height/2f) / ((float)screen.width / screen.height);
+			float worldX = (x - screen.width / 2f) / (screen.width / 2f);
+			float worldy = (-1 * y + screen.height / 2f) / (screen.height / 2f) / ((float)screen.width / screen.height);
 			// verander z om in en uit te zoomen
 			return new Vector3(worldX, worldy, 0f);
 		}
@@ -103,7 +103,7 @@ namespace Template
 			return (red << 16) + (green << 8) + blue;
 		}
 
-	
+
 
 		public void RenderGL()
 		{
