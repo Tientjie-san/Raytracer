@@ -37,20 +37,17 @@ namespace Template
 			Vector3 white = new Vector3(1, 1, 1);
 			Vector3 orange = new Vector3(1, 0.5f, 0.1f);
 
-
 			scene.Add_primitive(new Sphere(new Vector3(0f, 0.75f, 1.5f), 0.25f, yellow));
 			scene.Add_primitive(new Sphere(new Vector3(0.7f, 0f, 1.5f), 0.25f, red));
 			scene.Add_primitive(new Sphere(new Vector3(-0.7f, 0.7f, 1.5f), 0.25f, gray));
 			scene.Add_primitive(new Plane(new Vector3(0, -1, 0), new Vector3(0, 2, 0), orange));
 
-
-
-
 			scene.Add_light(new Light(new Vector3(0, 1, -1f), white, 2f));
 			scene.Add_light(new Light(new Vector3(0, 2, -2f), red, 1f));
 			//scene.Add_light(new Light(new Vector3(0, 0, 2f), white, 2f));
 			//scene.Add_light(new Light(new Vector3(2, 2, 2f), red, 2f));
-			// y negatief kijk omhoog etc. 
+
+			//  x omlaag -> kijk naar rechts.y omlaag -> kijk omhoog etc. z omlaag -> zoom in...
 			camera = new Camera(new Vector3(0, -0.05f, -2));
 
 		}
@@ -60,6 +57,8 @@ namespace Template
 		public void Tick()
 		{
 			screen.Clear(0);
+			//hier kan later een stuk code komen die op basis van input de camera positie veranderd(is geen minimum requirement).
+			// -----camera bewegen-------
 
 			// voor ieder pixel schiet een primary ray. 
 			for (int x = 0; x < screen.width; x++)
@@ -96,7 +95,6 @@ namespace Template
 		{
 			float worldX = (x - screen.width / 2f) / (screen.width / 2f);
 			float worldy = (-1 * y + screen.height / 2f) / (screen.height / 2f) / ((float)screen.width / screen.height);
-			// verander z om in en uit te zoomen
 			return new Vector3(worldX, worldy, 0f);
 		}
 		// kleur in decimal code
