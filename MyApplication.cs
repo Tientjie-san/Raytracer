@@ -35,18 +35,19 @@ namespace Template
 			Vector3 green = new Vector3(0.1f, 1, 0.1f);
 			Vector3 blue = new Vector3(0.1f, 0.1f, 1);
 			Vector3 white = new Vector3(1, 1, 1);
+			Vector3 orange = new Vector3(1, 0.5f, 0.1f);
 
 
 			scene.Add_primitive(new Sphere(new Vector3(0f, 0.75f, 1.5f), 0.25f, yellow));
 			scene.Add_primitive(new Sphere(new Vector3(0.7f, 0f, 1.5f), 0.25f, red));
 			scene.Add_primitive(new Sphere(new Vector3(-0.7f, 0.7f, 1.5f), 0.25f, gray));
-			scene.Add_primitive(new Plane(new Vector3(0, -1, 0), new Vector3(0, 2, 0), green));
+			scene.Add_primitive(new Plane(new Vector3(0, -1, 0), new Vector3(0, 2, 0), orange));
 
 
 
 
-			scene.Add_light(new Light(new Vector3(0, 2, -1f), white, 2f));
-			scene.Add_light(new Light(new Vector3(0, 2, 2f), red, 1f));
+			scene.Add_light(new Light(new Vector3(0, 1, -1f), white, 2f));
+			scene.Add_light(new Light(new Vector3(0, 2, 1f), red, 1f));
 			//scene.Add_light(new Light(new Vector3(0, 0, 2f), white, 2f));
 			//scene.Add_light(new Light(new Vector3(2, 2, 2f), red, 2f));
 			camera = new Camera(new Vector3(0, 0, -2));
