@@ -47,10 +47,11 @@ namespace Template
 
 
 			scene.Add_light(new Light(new Vector3(0, 1, -1f), white, 2f));
-			scene.Add_light(new Light(new Vector3(0, 2, 1f), red, 1f));
+			scene.Add_light(new Light(new Vector3(0, 2, -2f), red, 1f));
 			//scene.Add_light(new Light(new Vector3(0, 0, 2f), white, 2f));
 			//scene.Add_light(new Light(new Vector3(2, 2, 2f), red, 2f));
-			camera = new Camera(new Vector3(0, 0, -2));
+			// y negatief kijk omhoog etc. 
+			camera = new Camera(new Vector3(0, -0.05f, -2));
 
 		}
 
