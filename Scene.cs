@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenTK;
 
 namespace Template
 {
@@ -14,7 +15,18 @@ namespace Template
             primitives = new List<Primitive>();
         }
 
-        public void Add_primtive(Primitive primitive)
+        public void Add_square(Vector2 centre, float lengte)
+        {
+            float off = lengte / 2f;
+
+            primitives.Add(new Line(new Vector2(centre.X-off,centre.Y + off), new Vector2(centre.X + off, centre.Y + off)));
+            primitives.Add(new Line(new Vector2(centre.X - off, centre.Y - off), new Vector2(centre.X + off, centre.Y -off)));
+            primitives.Add(new Line(new Vector2(centre.X -off, centre.Y + off), new Vector2(centre.X - off, centre.Y - off)));
+            primitives.Add(new Line(new Vector2(centre.X +off, centre.Y ), new Vector2(centre.X + off, centre.Y- off)));
+
+        }
+
+        public void Add_primitive(Primitive primitive)
         {
             primitives.Add(primitive);
         }
@@ -24,11 +36,11 @@ namespace Template
             light_sources.Add(light);
         }
 
-        public bool  Occluded(Ray shadowray)
+        public bool Occluded(Ray shadowray)
         {
-            foreach( Primitive primitive in primitives)
+            foreach (Primitive primitive in primitives)
             {
-                if(primitive.Intersect(shadowray) != null)
+                if (primitive.Intersect(shadowray) != null)
                 {
                     return true;
                 }

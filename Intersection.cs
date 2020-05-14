@@ -10,10 +10,10 @@ namespace Template
     public class Intersection
     {
         public Primitive primitive;
-        public Vector3 location;
+        public Vector2 location;
         public float distance;
-        public Vector3 normal;
-        public Intersection(Primitive primitive, Vector3 location, Vector3 normal, float distance)
+        public Vector2 normal;
+        public Intersection(Primitive primitive, Vector2 location, Vector2 normal, float distance)
         {
             this.primitive = primitive;
             this.location = location;

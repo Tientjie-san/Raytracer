@@ -6,9 +6,9 @@ namespace Template
 {
     public class Ray
     {
-        public Vector3 origin, direction;
+        public Vector2 origin, direction;
         public float distance;
-        public Ray(Vector3 o, Vector3 d, float t)
+        public Ray(Vector2 o, Vector2 d, float t)
         {
             origin = o;
             direction = d.Normalized();

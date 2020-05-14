@@ -4,8 +4,7 @@ namespace Template
 {
     public abstract class Primitive
     {
-        public Vector3 position;
-        public Vector3 color;
+        public Vector2 position;
         public abstract Intersection Intersect(Ray ray);
     }
 
