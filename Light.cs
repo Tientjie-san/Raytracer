@@ -15,14 +15,6 @@ namespace Template
             this.color = color;
             this.brightness = brightness;
         }
-        /*
-        public Vector3 ComputeColor(Vector3 objectcolor, Vector2 normal, Vector2 Lightdirection, float distance)
-        {
-            float attenuation = 1 - (1 / (distance * distance * 2));
-            // hoe groter de afstand van het licht hoe zwakker de energie is, en de dot(normal, lightdirection) geeft aan waar het licht tegenover de intersectie is.
-            return objectcolor * this.color * attenuation * this.brightness * Vector2.Dot(normal, Lightdirection);
-
-        }*/
     }
 }
 

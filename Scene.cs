@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenTK;
+using OpenTK.Graphics.ES11;
 
 namespace Template
 {
@@ -15,56 +16,57 @@ namespace Template
             primitives = new List<Primitive>();
         }
 
-        public void Add_square(Vector2 centre, float lengte)
+        public void Add_square(Vector2 centre, float lengte, bool boven = true, bool onder = true, bool links = true, bool rechts = true)
         {
+
             float off = lengte / 2f;
-
-            primitives.Add(new Line(new Vector2(centre.X-off,centre.Y + off), new Vector2(centre.X + off, centre.Y + off)));
-            primitives.Add(new Line(new Vector2(centre.X - off, centre.Y - off), new Vector2(centre.X + off, centre.Y -off)));
-            primitives.Add(new Line(new Vector2(centre.X -off, centre.Y + off), new Vector2(centre.X - off, centre.Y - off)));
-            primitives.Add(new Line(new Vector2(centre.X +off, centre.Y ), new Vector2(centre.X + off, centre.Y- off)));
-
+            if (boven)
+            {
+                // boven lijn
+                primitives.Add(new Line(new Vector2(centre.X - off, centre.Y + off), new Vector2(centre.X + off, centre.Y + off)));
+            }
+            if (onder)
+            {
+                // onderlijn
+                primitives.Add(new Line(new Vector2(centre.X - off, centre.Y - off), new Vector2(centre.X + off, centre.Y - off)));
+            }
+            if (links)
+            {
+                //linkerlijn
+                primitives.Add(new Line(new Vector2(centre.X - off, centre.Y + off), new Vector2(centre.X - off, centre.Y - off)));
+            }
+            if (rechts)
+            {
+                // rechter lijn
+                primitives.Add(new Line(new Vector2(centre.X + off, centre.Y + off), new Vector2(centre.X + off, centre.Y - off)));
+            }
         }
 
-        public void Add_primitive(Primitive primitive)
+        public void Add_sphere(Vector2 position, float radius)
         {
-            primitives.Add(primitive);
+            primitives.Add(new Sphere(position, radius));
         }
 
-        public void Add_light(Light light)
+        public void Add_line(Vector2 start, Vector2 end)
         {
-            light_sources.Add(light);
+            primitives.Add(new Line(start, end));
+        }
+
+        public void Add_light(Vector2 position, Vector3 color, float brightness)
+        {
+            light_sources.Add(new Light(position, color, brightness));
         }
 
         public bool Occluded(Ray shadowray)
         {
             foreach (Primitive primitive in primitives)
             {
-                if (primitive.Intersect(shadowray) != null)
+                if (primitive.Intersect(shadowray))
                 {
                     return true;
                 }
             }
             return false;
         }
-        public Intersection getNearestIntersection(Ray ray)
-        {
-            float minDistance = ray.distance;
-            Intersection intersection = null;
-            Intersection closest = null;
-            foreach (Primitive primitive in primitives)
-            {
-                intersection = primitive.Intersect(ray);
-                if (intersection != null && intersection.distance < minDistance)
-                {
-                    minDistance = intersection.distance;
-                    closest = intersection;
-                }
-            }
-            return closest;
-
-        }
-
-
     }
 }

@@ -20,15 +20,23 @@ namespace Template
             Vector3 orange = new Vector3(1, 0.5f, 0.1f);
             Vector3 pink = new Vector3(1, 0.75f, 0.8f);
 
-            scene.Add_primitive(new Sphere(new Vector2(0.3f, 0f), 0.1f));
-            scene.Add_primitive(new Sphere(new Vector2(0f, 0), 0.1f));
-            scene.Add_primitive(new Sphere(new Vector2(-0.5f, 0.5f), 0.1f));
-            //scene.Add_primitive(new Line(new Vector2(0.5f, 0.5f), new Vector2( 0.5f, -0.5f)));
-            //scene.Add_square(new Vector2(0, 0), 0.2f);
-            scene.Add_light(new Light(new Vector2(-0.5f, -0.5f), blue, 2f));
-            scene.Add_light(new Light(new Vector2(0.5f, 0.5f), yellow, 2f));
-            scene.Add_light(new Light(new Vector2(0.5f, -0.5f), red, 2f));
-            scene.Add_light(new Light(new Vector2(-0.5f, 0.5f), green, 2f));
+            scene.Add_sphere(new Vector2(0f, 0.4f), 0.1f);
+            scene.Add_sphere(new Vector2(0f, -0.4f), 0.1f);
+            scene.Add_sphere(new Vector2(0.4f, 0f), 0.1f);
+            scene.Add_sphere(new Vector2(-0.4f, 0f), 0.1f);
+
+
+            scene.Add_square(new Vector2(-0.7f, -0.4f), 0.2f, rechts : false);
+            scene.Add_square(new Vector2(-0.7f, 0.4f), 0.2f, onder: false);
+            scene.Add_square(new Vector2(0.7f, -0.4f), 0.2f, boven: false);
+            scene.Add_square(new Vector2(0.7f, 0.4f), 0.2f, links: false);
+
+            scene.Add_light(new Vector2(-0.7f, 0.4f), green, 6);
+            scene.Add_light(new Vector2(-0.7f, -0.4f), blue, 6);
+            scene.Add_light(new Vector2(0.7f, 0.4f), yellow, 6);
+            scene.Add_light(new Vector2(0.7f, -0.4f), red, 6);
+            scene.Add_light(new Vector2(0f, 0f), white, 6);
+
 
         }
         // tick: renders one frame
@@ -36,7 +44,6 @@ namespace Template
         {
             screen.Clear( 0 );
 
-            // voor ieder pixel schiet een primary ray. 
             for (int x = 0; x < screen.width; x++)
                 for (int y = 0; y < screen.height; y++)
                 {
@@ -49,30 +56,20 @@ namespace Template
         public Vector3 Trace(Vector2 pixelcoordinate, Scene scene, Vector3 color)
         {
 
-            /*Intersection nearest_intersection = scene.getNearestIntersection(primaryray);
-            // als de nearest intersectie null is betekent het dat er geen primitive geraakt is dus worrdt er zwarte pixel geplot
-            if (nearest_intersection == null)
-            {
-                return color;
-            }*/
-            // schiet een shadowray naar de licht sources. vanaf de locatie van de intersectie. 
             foreach (Light light in scene.light_sources)
             {
                 Vector2 direction = (light.location - pixelcoordinate).Normalized();
                 float distance = Vector2.Distance(pixelcoordinate, light.location);
                 Ray ray = new Ray(pixelcoordinate, direction, distance); 
-
                 bool occluded = scene.Occluded(ray);
 
                 if (!occluded)
                 {
-                    // als brightness groter is dan is de attenuation groter, als afstand groter wordt dan is de energie lager
+                    // als brightness groter is dan is de attenuation groter, als afstand groter wordt dan is de attenuation lager
                     float attenuation = (light.brightness / (distance*60));
                     color += light.color * attenuation;
                 }
-                
             }
-
             return color;
         }
         int ConvertColor(Vector3 rgb)

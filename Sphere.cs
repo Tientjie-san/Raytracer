@@ -12,11 +12,10 @@ namespace Template
             this.position = position;
             r2 = r * r;
 
-
         }
 
         // werkt alleen voor sphere die licht alleen weerkaatst dus niet voor een glazen bol.
-        public override Intersection Intersect(Ray ray)
+        public override bool Intersect(Ray ray)
         {
 
             Vector2 c = this.position - ray.origin;
@@ -25,7 +24,7 @@ namespace Template
             float p2 = Vector2.Dot(q, q);
             if (p2 > this.r2)
             {
-                return null;
+                return false;
             }
             distance -= (float)Math.Sqrt(this.r2 - p2);
             // als de afstand kleiner is dan de primtive ray en groter is dan 0
@@ -34,9 +33,9 @@ namespace Template
                 Vector2 locatie = ray.origin + distance * ray.direction;
                 // normal at location of intersection
                 Vector2 normal = (locatie - this.position).Normalized();
-                return new Intersection(this, locatie, normal, distance);
+                return true;
             }
-            else return null;
+            else return false;
 
         }
     }
