@@ -35,7 +35,7 @@ namespace Template
             scene.Add_light(new Vector2(-0.7f, -0.4f), blue, 6);
             scene.Add_light(new Vector2(0.7f, 0.4f), yellow, 6);
             scene.Add_light(new Vector2(0.7f, -0.4f), red, 6);
-            scene.Add_light(new Vector2(0f, 0f), white, 6);
+            scene.Add_light(new Vector2(0f, 0f), orange, 6);
 
 
         }
@@ -48,7 +48,20 @@ namespace Template
                 for (int y = 0; y < screen.height; y++)
                 {
                     Vector3 color = new Vector3(0, 0, 0);
-                    color = Trace(ToWorldCoordinate(x,y), scene, color);
+                    float AA = 1f; // anti aliasing 4 rays per pixel
+                    float offset = 1f / AA;
+                    for (int i = 0; i < AA; i++)
+                    {
+                        for (int j = 0; j < AA; j++)
+                        {
+                            //calculate the color of the ray
+
+                            color += Trace(ToWorldCoordinate(x + i * offset, y + j * offset), scene, color);
+                        }
+                    }
+                    // aantal rays: 2 loops van 0 tot AA dus 2 *AA*AA
+                    color = color / (2 * AA * AA);
+                   // color = Trace(ToWorldCoordinate(x,y), scene, color);
                     screen.Plot(x, y, ConvertColor(color));
                 }
         }
@@ -92,7 +105,7 @@ namespace Template
 
         // vertaalt pixel coordinaten naar world space coordinaten 
 
-        Vector2 ToWorldCoordinate(int x, int y)
+        Vector2 ToWorldCoordinate(float x, float y)
         {
             float worldX;
             float worldY;
