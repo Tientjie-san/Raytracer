@@ -1,22 +1,22 @@
 ﻿<Properties StartupConfiguration="{3093DF57-1EF0-4E01-82FF-ACA6176D0806}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="template.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MyApplication.cs">
     <Files>
-      <File FileName="Light.cs" Line="1" Column="1" />
-      <File FileName="Line.cs" Line="25" Column="10" />
-      <File FileName="MyApplication.cs" Line="68" Column="109" />
+      <File FileName="MyApplication.cs" Line="101" Column="13" />
+      <File FileName="Scene.cs" />
+      <File FileName="Light.cs" />
       <File FileName="Primitive.cs" />
-      <File FileName="Ray.cs" Line="1" Column="1" />
-      <File FileName="Scene.cs" Line="68" Column="14" />
-      <File FileName="Sphere.cs" Line="17" Column="35" />
-      <File FileName="surface.cs" Line="1" Column="1" />
-      <File FileName="template.cs" Line="107" Column="43" />
+      <File FileName="Ray.cs" />
+      <File FileName="Line.cs" />
+      <File FileName="Sphere.cs" />
+      <File FileName="surface.cs" />
+      <File FileName="template.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="INFOGR2020Tmpl8" expanded="True">
             <Node name="Template" expanded="True">
-              <Node name="template.cs" selected="True" />
+              <Node name="MyApplication.cs" selected="True" />
             </Node>
           </Node>
         </State>

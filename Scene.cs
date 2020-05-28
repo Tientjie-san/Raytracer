@@ -9,10 +9,12 @@ namespace Template
     {
         public List<Primitive> primitives;
         public List<Light> light_sources;
+        public Light[] arealight_sources;
 
         public Scene()
         {
             light_sources = new List<Light>();
+            arealight_sources = new Light[8];
             primitives = new List<Primitive>();
         }
 
@@ -61,15 +63,12 @@ namespace Template
 
         public void Add_Arealight(float center, Vector3 color)
         {
-            for(float i = 0; i < 6; i++)
+            for(float i = 0; i < 8; i++)
             {
-                Add_light(new Vector2((center-0.15f+(0.05f*i)), 0.4f), color, 4);
-            }
 
-            //--> make the arguments of this method specify the perimeters of the area light region
-            //--> then actaul create a square light: just a set of 
-            //--> and set the random perimeters to what is given in these arguments
-            //--> and allow the random values to be changed every time the trace function is called
+                Vector2 pos = new Vector2((center - 0.15f + (0.05f * i)), 0.4f);
+                arealight_sources[(int)i] = new Light(pos, color, 3);
+            }
         }
 
         public bool Occluded(Ray shadowray)

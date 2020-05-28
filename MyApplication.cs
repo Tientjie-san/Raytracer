@@ -3,6 +3,7 @@ using OpenTK;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 
 namespace Template
@@ -27,8 +28,6 @@ namespace Template
             Vector3 orange = new Vector3(1, 0.5f, 0.1f);
             Vector3 pink = new Vector3(1, 0.75f, 0.8f);
 
-            scene.Add_Arealight(0.0f, orange);
-
             scene.Add_sphere(new Vector2(-0.1f, -0.4f), 0.08f);
             scene.Add_sphere(new Vector2(0.21f, 0.1f), 0.08f);
             scene.Add_sphere(new Vector2(-0.45f, -0.05f), 0.08f);
@@ -36,7 +35,6 @@ namespace Template
 
             scene.Add_square(new Vector2(-0.7f, -0.4f), 0.2f, rechts : false);
             scene.Add_square(new Vector2(-0.7f, 0.4f), 0.2f, onder: false);
-            scene.Add_square(new Vector2(0.7f, -0.4f), 0.2f, boven: false);
             scene.Add_square(new Vector2(0.7f, 0.4f), 0.2f, links: false);
 
             scene.Add_light(new Vector2(-0.7f, 0.4f), green, 6);
@@ -44,6 +42,8 @@ namespace Template
             scene.Add_light(new Vector2(0.7f, 0.4f), yellow, 6);
             scene.Add_light(new Vector2(0.7f, -0.4f), red, 6);
 
+            //Area light
+            scene.Add_Arealight(0.0f, orange);
         }
 
 
@@ -77,7 +77,11 @@ namespace Template
 
         public Vector3 Trace(Vector2 pixelcoordinate, Scene scene, Vector3 color)
         {
-            //--> spark rerandomize here
+
+            int a = GenRand(9); //gets 4 random values to choose four random points from the arealight per point, and not repeat a point
+            int b = GenRand(a);
+            int c = GenRand(b);
+            int d = GenRand(c);
 
             foreach (Light light in scene.light_sources)
             {
@@ -93,6 +97,32 @@ namespace Template
                     color += light.color * attenuation;
                 }
             }
+
+            
+            if(scene.arealight_sources[0] != null)
+            {
+                List<Light> randomLights = new List<Light>();
+                randomLights.Add(scene.arealight_sources[a]);
+                randomLights.Add(scene.arealight_sources[b]);
+                randomLights.Add(scene.arealight_sources[c]);
+                randomLights.Add(scene.arealight_sources[d]);
+
+                foreach (Light rlight in randomLights)
+                {
+                    Vector2 direction = (rlight.location - pixelcoordinate).Normalized();
+                    float distance = Vector2.Distance(pixelcoordinate, rlight.location);
+                    Ray ray = new Ray(pixelcoordinate, direction, distance);
+                    bool occluded = scene.Occluded(ray);
+
+                    if (!occluded)
+                    {
+                        // als brightness groter is dan is de attenuation groter, als afstand groter wordt dan is de attenuation lager
+                        float attenuation = (rlight.brightness / (distance * 60));
+                        color += rlight.color * attenuation;
+                    }
+                }
+            }
+            
             return color;
         }
         int ConvertColor(Vector3 rgb)
@@ -144,6 +174,17 @@ namespace Template
         int MixColor(int red, int green, int blue)
         {
             return (red << 16) + (green << 8) + blue;
+        }
+
+        int GenRand(int x)
+        {
+            Random r = new Random();
+            int rInt = r.Next(0, 7); //for ints
+
+            while (rInt == x)
+                rInt = GenRand(x);
+            
+            return rInt;
         }
 
     }
