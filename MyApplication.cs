@@ -1,5 +1,10 @@
 using System;
 using OpenTK;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+
+
 namespace Template
 {
     class MyApplication
@@ -7,6 +12,8 @@ namespace Template
         // member variables
         public Surface screen;
         public Scene scene = new Scene();
+        public Vector3 dark = new Vector3(1, 0.75f, 0.8f);
+
         // initialize
         public void Init()
         {
@@ -20,10 +27,11 @@ namespace Template
             Vector3 orange = new Vector3(1, 0.5f, 0.1f);
             Vector3 pink = new Vector3(1, 0.75f, 0.8f);
 
-            scene.Add_sphere(new Vector2(0f, 0.4f), 0.1f);
-            scene.Add_sphere(new Vector2(0f, -0.4f), 0.1f);
-            scene.Add_sphere(new Vector2(0.4f, 0f), 0.1f);
-            scene.Add_sphere(new Vector2(-0.4f, 0f), 0.1f);
+            scene.Add_Arealight(0.0f, orange);
+
+            scene.Add_sphere(new Vector2(-0.1f, -0.4f), 0.08f);
+            scene.Add_sphere(new Vector2(0.21f, 0.1f), 0.08f);
+            scene.Add_sphere(new Vector2(-0.45f, -0.05f), 0.08f);
 
 
             scene.Add_square(new Vector2(-0.7f, -0.4f), 0.2f, rechts : false);
@@ -32,20 +40,21 @@ namespace Template
             scene.Add_square(new Vector2(0.7f, 0.4f), 0.2f, links: false);
 
             scene.Add_light(new Vector2(-0.7f, 0.4f), green, 6);
-            scene.Add_light(new Vector2(-0.7f, -0.4f), blue, 6);
+            scene.Add_light(new Vector2(-0.7f, -0.4f), blue, 8);
             scene.Add_light(new Vector2(0.7f, 0.4f), yellow, 6);
             scene.Add_light(new Vector2(0.7f, -0.4f), red, 6);
-            scene.Add_light(new Vector2(0f, 0f), orange, 6);
-
 
         }
+
+
         // tick: renders one frame
         public void Tick()
         {
-            screen.Clear( 0 );
+            screen.Clear(0);
 
-            for (int x = 0; x < screen.width; x++)
-                for (int y = 0; y < screen.height; y++)
+            Parallel.For(0, screen.width, new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount }, x =>
+            {
+                Parallel.For(0, screen.height, new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount }, y =>
                 {
                     Vector3 color = new Vector3(0, 0, 0);
                     float AA = 1f; // anti aliasing 4 rays per pixel
@@ -55,19 +64,20 @@ namespace Template
                         for (int j = 0; j < AA; j++)
                         {
                             //calculate the color of the ray
-
                             color += Trace(ToWorldCoordinate(x + i * offset, y + j * offset), scene, color);
                         }
                     }
                     // aantal rays: 2 loops van 0 tot AA dus 2 *AA*AA
                     color = color / (2 * AA * AA);
-                   // color = Trace(ToWorldCoordinate(x,y), scene, color);
+                    // color = Trace(ToWorldCoordinate(x,y), scene, color);
                     screen.Plot(x, y, ConvertColor(color));
-                }
+                });
+            });
         }
 
         public Vector3 Trace(Vector2 pixelcoordinate, Scene scene, Vector3 color)
         {
+            //--> spark rerandomize here
 
             foreach (Light light in scene.light_sources)
             {

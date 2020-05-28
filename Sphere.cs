@@ -11,7 +11,6 @@ namespace Template
         {
             this.position = position;
             r2 = r * r;
-
         }
 
         // werkt alleen voor sphere die licht alleen weerkaatst dus niet voor een glazen bol.
@@ -26,7 +25,7 @@ namespace Template
             {
                 return false;
             }
-            distance -= (float)Math.Sqrt(this.r2 - p2);
+            distance += (float)Math.Sqrt(this.r2 - p2);
             // als de afstand kleiner is dan de primtive ray en groter is dan 0
             if ((distance < ray.distance) && (distance > 0))
             {

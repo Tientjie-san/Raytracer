@@ -42,6 +42,8 @@ namespace Template
             }
         }
 
+
+
         public void Add_sphere(Vector2 position, float radius)
         {
             primitives.Add(new Sphere(position, radius));
@@ -55,6 +57,19 @@ namespace Template
         public void Add_light(Vector2 position, Vector3 color, float brightness)
         {
             light_sources.Add(new Light(position, color, brightness));
+        }
+
+        public void Add_Arealight(float center, Vector3 color)
+        {
+            for(float i = 0; i < 6; i++)
+            {
+                Add_light(new Vector2((center-0.15f+(0.05f*i)), 0.4f), color, 4);
+            }
+
+            //--> make the arguments of this method specify the perimeters of the area light region
+            //--> then actaul create a square light: just a set of 
+            //--> and set the random perimeters to what is given in these arguments
+            //--> and allow the random values to be changed every time the trace function is called
         }
 
         public bool Occluded(Ray shadowray)
